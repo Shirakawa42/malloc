@@ -436,6 +436,11 @@ void	zone_viewer(t_zone *zone)
 	}
 }
 
+void	show_alloc_mem(void)
+{
+	
+}
+
 int		main(void)
 {
 	char	*a;
@@ -445,7 +450,7 @@ int		main(void)
 	a = malloc2(7000);
 	for (int i = 0; i < 6; i++)
 		malloc2(5000);
-	realloc2(a, 10);
-	zone_viewer(g_e.tiny);
+	a = (char*)&a;
+	ft_putstr(a);
 	return (0);
 }
