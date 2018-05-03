@@ -1,0 +1,8 @@
+bugs:
+
+tests:
+- tester beaucoup plus en détail la fonction de destruction
+- faire des testes également pour medium et large, surtout large
+
+a faire:
+- realloc !
