@@ -42,6 +42,8 @@ int		main(void)
 	a = malloc(7000);
 	for (int i = 0; i < 6; i++)
 		malloc(5000);
+	realloc(a, 500);
+	free(a);
 	zone_viewer(g_e.tiny);
 	return (0);
 }

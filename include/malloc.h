@@ -1,13 +1,13 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-# define PAGE_SIZE getpagesize()
-# define TINY 10 * PAGE_SIZE
-# define MEDIUM 200 * PAGE_SIZE
+# define PAGE_SIZE (size_t)getpagesize()
+# define TINY (size_t)(10 * PAGE_SIZE)
+# define MEDIUM (size_t)(200 * PAGE_SIZE)
 
 typedef struct	s_zone
 {
-	int				size;
+	size_t			size;
 	int				free;
 	struct s_zone	*next;
 	struct s_zone	*prev;
@@ -32,7 +32,7 @@ void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
 void	free(void *ptr);
 
-void	*search_for_free_space(size_t size, t_zone *zone, size_t max, t_zone *last);
+void	*search_for_free_space(size_t size, t_zone *zone, t_zone *last);
 
 size_t	largetopage(size_t size);
 size_t	zonetopage(void);

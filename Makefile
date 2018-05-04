@@ -1,7 +1,7 @@
 NAME		=	malloc_test
 
 CC			=	gcc
-FLAGS		= #-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror
 
 SRC_DIR		=	src/
 INC_DIR		=	include/

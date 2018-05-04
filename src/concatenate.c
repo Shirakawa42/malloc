@@ -2,10 +2,12 @@
 
 void	*concatenate_tiny(t_zone *zone, size_t size)
 {
-	if ((zone->next = (t_zone*)allocate((TINY * 100) + (zonetopage() * PAGE_SIZE))) == (void*)-1)
+	if ((zone->next = (t_zone*)allocate((TINY * 100) + (zonetopage() *
+			PAGE_SIZE))) == (void*)-1)
 		return (NULL);
 	zone->next->next = (t_zone*)((char*)(zone->next + 1) + size);
-	zone->next->next->size = (TINY * 100) + (zonetopage() * PAGE_SIZE) - size - sizeof(t_zone);
+	zone->next->next->size = (TINY * 100) + (zonetopage() * PAGE_SIZE) - size
+			- sizeof(t_zone);
 	zone->next->next->type = 'T';
 	zone->next->prevbig = g_e.tiny->lastbig;
 	zone->next->nextbig = NULL;
@@ -26,10 +28,12 @@ void	*concatenate_tiny(t_zone *zone, size_t size)
 
 void	*concatenate_medium(t_zone *zone, size_t size)
 {
-	if ((zone->next = (t_zone*)allocate((MEDIUM * 100) + (zonetopage() * PAGE_SIZE))) == (void*)-1)
+	if ((zone->next = (t_zone*)allocate((MEDIUM * 100) + (zonetopage() *
+	PAGE_SIZE))) == (void*)-1)
 		return (NULL);
 	zone->next->next = (t_zone*)((char*)(zone->next + 1) + size);
-	zone->next->next->size = (MEDIUM * 100) + (zonetopage() * PAGE_SIZE) - size - sizeof(t_zone);
+	zone->next->next->size = (MEDIUM * 100) + (zonetopage() * PAGE_SIZE) -
+			size - sizeof(t_zone);
 	zone->next->next->type = 'M';
 	zone->next->prevbig = g_e.medium->lastbig;
 	zone->next->nextbig = NULL;

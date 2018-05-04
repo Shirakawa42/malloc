@@ -1,8 +1,8 @@
 #include "malloc.h"
 
-void	*search_for_free_space(size_t size, t_zone *zone, size_t max, t_zone *last)
+void	*search_for_free_space(size_t size, t_zone *zone, t_zone *last)
 {
-	int		i;
+	size_t	i;
 
 	if (last->size >= size)
 		zone = last;
@@ -51,7 +51,7 @@ void	*search_for_free_space(size_t size, t_zone *zone, size_t max, t_zone *last)
 
 void	*malloc(size_t size)
 {
-	if (size < 0)
+	if (size <= 0)
 		return (NULL);
 	else if (size <= TINY)
 		if (g_e.tiny == NULL)
@@ -61,7 +61,7 @@ void	*malloc(size_t size)
 			return (init(size, g_e.tiny, TINY));
 		}
 		else
-			return (search_for_free_space(size, g_e.tiny, TINY, g_e.lasttiny));
+			return (search_for_free_space(size, g_e.tiny, g_e.lasttiny));
 	else if (size <= MEDIUM)
 		if (g_e.medium == NULL)
 		{
@@ -70,7 +70,7 @@ void	*malloc(size_t size)
 			return (init(size, g_e.medium, MEDIUM));
 		}
 		else
-			return (search_for_free_space(size, g_e.medium, MEDIUM, g_e.lastmedium));
+			return (search_for_free_space(size, g_e.medium, g_e.lastmedium));
 	else
 		if (g_e.large == NULL)
 		{

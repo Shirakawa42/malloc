@@ -1,6 +1,6 @@
 #include "malloc.h"
 
-static void	*split_realloc(t_zone *zone, size_t size, void *ptr)
+static void	split_realloc(t_zone *zone, size_t size)
 {
 	zone->next->prev = (t_zone*)((char*)(zone + 1) + size);
 	zone->next->prev->prev = zone;
@@ -36,7 +36,7 @@ void	*realloc(void *ptr, size_t size)
 		return (NULL);
 	zone = (t_zone*)ptr - 1;
 	if ((size + sizeof(t_zone) + 1) < zone->size)
-		return (split_realloc(zone, size, ptr));
+		split_realloc(zone, size);
 	else if (size > zone->size)
 		return (bigger_realloc(zone, size, ptr));
 	return (ptr);
