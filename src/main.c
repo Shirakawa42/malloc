@@ -1,49 +1,83 @@
 #include "malloc.h"
+#include <stdint.h>
+#include <stdio.h>
 
-static void	zone_viewer(t_zone *zone)
+void	show_alloc_mem(void)
 {
-	int		i;
-	t_zone	*tmp;
+	t_zone		*zone;
+	uint64_t	total;
 
-	tmp = zone;
-	ft_putstr("\n===========================================================================\n");
-	while (zone)
+	total = 0;
+	if (g_e.tiny)
 	{
-		ft_putstr("size: ");
-		ft_putnbr(zone->size);
-		ft_putstr(" | free: ");
-		ft_putnbr(zone->free);
-		ft_putstr("\n");
-		zone = zone->next;
-		if (zone && zone->prevbig)
-			ft_putstr("--------------------------------------------------------------\n");
-	}
-	ft_putstr("===========================================================================\n");
-	if (tmp && tmp->type != 'L')
-	{
-		ft_putstr("total bigs: ");
-		i = 0;
-		while (tmp)
-		{
-			i++;
-			tmp = tmp->nextbig;
-		}
-		ft_putnbr(i);
+		ft_putstr("TINY : 0x");
+		ft_putaddr((uint64_t)g_e.tiny);
 		ft_putchar('\n');
+		zone = g_e.tiny;
+		while (zone)
+		{
+			if (zone->free == 0)
+			{
+				ft_putstr("0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1))));
+				ft_putstr(" - 0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1)
+						+ zone->size)));
+				ft_putstr(" : ");
+				ft_putnbr(zone->size);
+				ft_putstr(" octets\n");
+				total += zone->size;
+			}
+			zone = zone->next;
+		}
 	}
-}
-
-int		main(void)
-{
-	char	*a;
-
-	for (int i = 0; i < 6; i++)
-		malloc(5000);
-	a = malloc(7000);
-	for (int i = 0; i < 6; i++)
-		malloc(5000);
-	realloc(a, 500);
-	free(a);
-	zone_viewer(g_e.tiny);
-	return (0);
+	if (g_e.medium)
+	{
+		ft_putstr("MEDIUM : 0x");
+		ft_putaddr((uint64_t)g_e.medium);
+		ft_putchar('\n');
+		zone = g_e.medium;
+		while (zone)
+		{
+			if (zone->free == 0)
+			{
+				ft_putstr("0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1))));
+				ft_putstr(" - 0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1)
+						+ zone->size)));
+				ft_putstr(" : ");
+				ft_putnbr(zone->size);
+				ft_putstr(" octets\n");
+				total += zone->size;
+			}
+			zone = zone->next;
+		}
+	}
+	if (g_e.large)
+	{
+		ft_putstr("LARGE : 0x");
+		ft_putaddr((uint64_t)g_e.large);
+		ft_putchar('\n');
+		zone = g_e.large;
+		while (zone)
+		{
+			if (zone->free == 0)
+			{
+				ft_putstr("0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1))));
+				ft_putstr(" - 0x");
+				ft_putaddr((uint64_t)((t_zone*)((char*)(zone + 1)
+						+ zone->size)));
+				ft_putstr(" : ");
+				ft_putnbr(zone->size);
+				ft_putstr(" octets\n");
+				total += zone->size;
+			}
+			zone = zone->next;
+		}
+	}
+	ft_putstr("Total : ");
+	ft_putbigunbr(total);
+	ft_putstr(" octets\n");
 }

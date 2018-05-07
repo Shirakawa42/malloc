@@ -1,4 +1,8 @@
-NAME		=	malloc_test
+ifeq ($(HOSTTYPE),)
+HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME		=	libft_malloc_$(HOSTTYPE).so
 
 CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror
@@ -18,7 +22,8 @@ SRC_BASE	=	main.c \
 				ft_strlen.c \
 				init.c \
 				malloc.c \
-				realloc.c
+				realloc.c \
+				ft_putaddr.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))

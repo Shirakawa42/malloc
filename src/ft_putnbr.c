@@ -32,3 +32,14 @@ void	ft_putnbr(int n)
 	else
 		ft_putchar(n + 48);
 }
+
+void	ft_putbigunbr(uint64_t n)
+{
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+		ft_putchar(n + 48);
+}

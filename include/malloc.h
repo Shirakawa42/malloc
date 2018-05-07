@@ -1,5 +1,6 @@
 #include <sys/mman.h>
 #include <unistd.h>
+#include <stdint.h>
 
 # define PAGE_SIZE (size_t)getpagesize()
 # define TINY (size_t)(10 * PAGE_SIZE)
@@ -31,6 +32,7 @@ t_e	g_e;
 void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
 void	free(void *ptr);
+void	show_alloc_mem(void);
 
 void	*search_for_free_space(size_t size, t_zone *zone, t_zone *last);
 
@@ -48,5 +50,7 @@ void	*concatenate_new_large(t_zone *zone, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_putchar(char c);
 void	ft_putnbr(int n);
+void	ft_putbigunbr(uint64_t n);
 void	ft_putstr(const char *s);
 size_t	ft_strlen(const char *str);
+void	ft_putaddr(uint64_t addr);
