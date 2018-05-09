@@ -36,6 +36,7 @@ $(NAME):		$(OBJ_DIR) $(OBJS)
 	@$(CC) $(OBJS) -shared -o $(NAME) \
 		-I $(INC_DIR) \
 		$(FLAGS)
+	@ln -s $(NAME) libft_malloc.so
 	@echo "\033[1;34m"$(NAME)" compiled"
 
 $(OBJ_DIR) :
@@ -52,6 +53,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -f libft_malloc.so
 	@echo "\033[3;0;31mall files have been scratched";
 
 re:				fclean all
