@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 14:33:07 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/09 14:33:09 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/09 15:03:11 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	*bigger_realloc(t_zone *zone, size_t size, void *ptr)
 	return (new);
 }
 
-void	*realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
 	t_zone	*zone;
 

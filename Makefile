@@ -24,7 +24,8 @@ SRC_BASE	=	show_alloc_mem.c \
 				malloc.c \
 				realloc.c \
 				ft_putaddr.c \
-				look_for_destruction.c
+				look_for_destruction.c \
+				search_for_free_space.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
@@ -32,7 +33,7 @@ OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
 all : $(NAME)
 
 $(NAME):		$(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME) \
+	@$(CC) $(OBJS) -shared -o $(NAME) \
 		-I $(INC_DIR) \
 		$(FLAGS)
 	@echo "\033[1;34m"$(NAME)" compiled"
@@ -42,7 +43,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(dir $(OBJS))
 
 $(OBJ_DIR)%.o :	$(SRC_DIR)%.c | $(OBJ_DIR)
-	@$(CC) $(FLAGS) -MMD -c $< -o $@\
+	@$(CC) $(FLAGS) -MMD -c -fPIC $< -o $@\
 		-I $(INC_DIR)\
 
 clean:
