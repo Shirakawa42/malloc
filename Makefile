@@ -36,6 +36,7 @@ $(NAME):		$(OBJ_DIR) $(OBJS)
 	@$(CC) $(OBJS) -shared -o $(NAME) \
 		-I $(INC_DIR) \
 		$(FLAGS)
+	@rm -f libft_malloc.so
 	@ln -s $(NAME) libft_malloc.so
 	@echo "\033[1;34m"$(NAME)" compiled"
 

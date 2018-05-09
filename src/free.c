@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 13:37:15 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/09 14:30:37 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:03:03 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void			free(void *ptr)
 	if (ptr == NULL)
 		return ;
 	zone = (t_zone*)ptr - 1;
+	if (!zone->free)
+		return ;
 	zone->free = 1;
 	if (zone->type == 'T' || zone->type == 'M')
 	{
