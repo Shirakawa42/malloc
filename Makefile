@@ -11,7 +11,7 @@ SRC_DIR		=	src/
 INC_DIR		=	include/
 OBJ_DIR		=	objs/
 
-SRC_BASE	=	main.c \
+SRC_BASE	=	show_alloc_mem.c \
 				concatenate.c \
 				convert_and_allocate.c \
 				free.c \
@@ -23,7 +23,8 @@ SRC_BASE	=	main.c \
 				init.c \
 				malloc.c \
 				realloc.c \
-				ft_putaddr.c
+				ft_putaddr.c \
+				look_for_destruction.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
