@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 14:33:03 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/09 15:40:35 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/17 14:33:58 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ static void		*malloc_large(size_t size)
 
 void			*malloc(size_t size)
 {
-	if (size <= 0)
-		return (NULL);
-	else if (size <= TINY)
+	if (size <= TINY)
 		return (malloc_tiny(size));
 	else if (size <= MEDIUM)
 		return (malloc_medium(size));

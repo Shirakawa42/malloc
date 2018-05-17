@@ -5,7 +5,7 @@ endif
 NAME		=	libft_malloc_$(HOSTTYPE).so
 
 CC			=	gcc
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	#-Wall -Wextra -Werror
 
 SRC_DIR		=	src/
 INC_DIR		=	include/
@@ -25,7 +25,8 @@ SRC_BASE	=	show_alloc_mem.c \
 				realloc.c \
 				ft_putaddr.c \
 				look_for_destruction.c \
-				search_for_free_space.c
+				search_for_free_space.c \
+				search_in_zone.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
@@ -45,7 +46,7 @@ $(OBJ_DIR) :
 	@mkdir -p $(dir $(OBJS))
 
 $(OBJ_DIR)%.o :	$(SRC_DIR)%.c | $(OBJ_DIR)
-	@$(CC) $(FLAGS) -MMD -c -fPIC $< -o $@\
+	@$(CC) $(FLAGS) -fPIC -c $< -o $@\
 		-I $(INC_DIR)\
 
 clean:

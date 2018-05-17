@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 14:33:07 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/09 15:03:11 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:25:40 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		*realloc(void *ptr, size_t size)
 	if (size < 1)
 		return (NULL);
 	zone = (t_zone*)ptr - 1;
+	if (search_zonebig(zone) == NULL)
+		return (NULL);
 	if ((size + sizeof(t_zone) + 1) < zone->size)
 		split_realloc(zone, size);
 	else if (size > zone->size)

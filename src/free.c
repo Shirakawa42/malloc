@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 13:37:15 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/09 16:03:03 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:23:51 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			free(void *ptr)
 	if (ptr == NULL)
 		return ;
 	zone = (t_zone*)ptr - 1;
-	if (!zone->free)
+	if (search_zonebig(zone) == NULL)
 		return ;
 	zone->free = 1;
 	if (zone->type == 'T' || zone->type == 'M')
@@ -63,6 +63,6 @@ void			free(void *ptr)
 		look_for_fusion(zone);
 		look_for_destruction(zone);
 	}
-	else
+	else if (zone->type == 'L')
 		look_for_large_destruction(zone);
 }
