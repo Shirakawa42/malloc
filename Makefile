@@ -5,7 +5,7 @@ endif
 NAME		=	libft_malloc_$(HOSTTYPE).so
 
 CC			=	gcc
-FLAGS		=	#-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror
 
 SRC_DIR		=	src/
 INC_DIR		=	include/

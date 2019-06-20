@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 13:31:21 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/17 15:25:09 by lvasseur         ###   ########.fr       */
+/*   Updated: 2018/05/18 15:34:01 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdint.h>
 
 # define PAGE_SIZE	(size_t)getpagesize()
-# define TINY		(size_t)(6 * PAGE_SIZE)
-# define MEDIUM		(size_t)(100 * PAGE_SIZE)
+# define TINY		(size_t)(16 * PAGE_SIZE)
+# define MEDIUM		(size_t)(128 * PAGE_SIZE)
 
 typedef struct		s_zone
 {
@@ -74,6 +74,6 @@ void				ft_putstr(const char *s);
 size_t				ft_strlen(const char *str);
 void				ft_putaddr(uint64_t addr);
 
-void			*search_zonebig(void *ptr);
+void				*search_zonebig(void *ptr);
 
 #endif
