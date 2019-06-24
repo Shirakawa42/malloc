@@ -1,61 +1,47 @@
 #include "malloc.h"
 
-static void	ft_putchar(char c)
+static void	print_zone(t_node *node, uint64_t *total)
 {
-	write(1, &c, 1);
-}
-
-void	ft_putnbr(int n)
-{
-	if (n == -2147483648)
-	{
-		write(1, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n >= 10)
-	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
-	}
-	else
-		ft_putchar(n + 48);
-}
-
-static int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-void	ft_putstr(char *str)
-{
-	write(1, str, ft_strlen(str));
-}
-
-void	show_alloc_mem()
-{
-	t_node	*node;
-
-	node = g_stock.tiny;
+	ft_putaddr((uint64_t)node);
+	ft_putchar('\n');
 	while (node)
 	{
-		ft_putstr("==================================================\n");
-		ft_putstr("id: ");
-		ft_putnbr(node->zone_id);
-		ft_putstr("\nsize: ");
-		ft_putnbr(node->size);
-		ft_putstr("\nfree: ");
-		ft_putnbr(node->free);
-		ft_putstr("\n==================================================\n");
+		if (node->free == 0)
+		{
+			ft_putstr("0x");
+			ft_putaddr((uint64_t)(node + 1));
+			ft_putstr(" - 0x");
+			ft_putaddr((uint64_t)((char*)(node + 1) + node->size));
+			ft_putstr(" : ");
+			ft_putnbr(node->size + sizeof(t_node));
+			ft_putstr(" octets\n");
+			*total += node->size + sizeof(t_node);
+		}
 		node = node->next;
 	}
+}
+
+void		show_alloc_mem(void)
+{
+	uint64_t	total;
+
+	total = 0;
+	if (g_stock.tiny)
+	{
+		ft_putstr("TINY : 0x");
+		print_zone(g_stock.tiny, &total);
+	}
+	if (g_stock.medium)
+	{
+		ft_putstr("MEDIUM : 0x");
+		print_zone(g_stock.medium, &total);
+	}
+	if (g_stock.large)
+	{
+		ft_putstr("LARGE : 0x");
+		print_zone(g_stock.large, &total);
+	}
+	ft_putstr("Total : ");
+	ft_putbigunbr(total);
+	ft_putstr(" octets\n");
 }

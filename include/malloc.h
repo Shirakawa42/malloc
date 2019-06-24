@@ -43,6 +43,10 @@ void	*malloc(size_t size);
 void	free(void *ptr);
 void	ft_putnbr(int n);
 void	ft_putstr(char *str);
+void	*realloc(void *ptr, size_t size);
+void	ft_putaddr(uint64_t addr);
+void	ft_putchar(char c);
+void	ft_putbigunbr(uint64_t n);
 void	show_alloc_mem();
 
 #endif
