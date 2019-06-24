@@ -44,26 +44,46 @@ static int	look_for_destruction(size_t id, char type, t_node *start)
 	return (1);
 }
 
-static void	look_for_fusion(size_t id)
+static void	look_for_fusion(size_t id, t_node *stock)
 {
-	(void)id;
+	while (stock && stock->zone_id != id)
+		stock = stock->next;
+	while (stock && stock->next && stock->zone_id == stock->next->zone_id)
+	{
+		if (stock->free == 1 && stock->next->free == 1)
+		{
+			stock->size += stock->next->size + sizeof(t_node);
+			stock->next = stock->next->next;
+		}
+		else
+			stock = stock->next;
+	}
 }
 
 void	free(void *ptr)
 {
 	t_node	*node;
 	int		destroyed;
+	char	type;
+	t_node	*stock;
 
 	if (ptr == NULL)
 		return ;
 	node = (t_node*)ptr - 1;
 	node->free = 1;
+	type = 'L';
+	stock = g_stock.large;
 	if (node->size + sizeof(t_node) <= TINY * getpagesize())
-		destroyed = look_for_destruction(node->zone_id, 'T', g_stock.tiny);
+	{
+		type = 'T';
+		stock = g_stock.tiny;
+	}
 	else if (node->size + sizeof(t_node) <= MEDIUM * getpagesize())
-		destroyed = look_for_destruction(node->zone_id, 'M', g_stock.medium);
-	else
-		destroyed = look_for_destruction(node->zone_id, 'L', g_stock.large);
+	{
+		type = 'M';
+		stock = g_stock.medium;
+	}
+	destroyed = look_for_destruction(node->zone_id, type, stock);
 	if (destroyed == 0)
-		look_for_fusion(node->zone_id);
+		look_for_fusion(node->zone_id, stock);
 }

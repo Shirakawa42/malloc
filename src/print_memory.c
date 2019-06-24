@@ -45,7 +45,7 @@ void	show_alloc_mem()
 {
 	t_node	*node;
 
-	node = g_stock.large;
+	node = g_stock.tiny;
 	while (node)
 	{
 		ft_putstr("==================================================\n");
