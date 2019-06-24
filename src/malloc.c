@@ -17,7 +17,7 @@ static void		*claim_node(t_node **node, size_t size)
 		n->next->zone_id = n->zone_id;
 		n->next->free = 1;
 	}
-	return ((t_node*)((char*)(n + 1)));
+	return (n + 1);
 }
 
 static t_node	*create_new_zone(int *id, t_node *node, size_t size)

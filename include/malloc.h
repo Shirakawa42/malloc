@@ -25,7 +25,7 @@ typedef struct	s_node
 {
 	short int		free;
 	size_t			size;
-	int				zone_id;
+	size_t			zone_id;
 	struct s_node	*next;
 }				t_node;
 
@@ -40,6 +40,9 @@ t_stock	g_stock;
 
 void	*allocate(size_t size);
 void	*malloc(size_t size);
+void	free(void *ptr);
+void	ft_putnbr(int n);
+void	ft_putstr(char *str);
 void	show_alloc_mem();
 
 #endif

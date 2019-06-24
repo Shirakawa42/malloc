@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <malloc.h>
 #include <strings.h>
 
 int		main()

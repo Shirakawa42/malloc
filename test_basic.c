@@ -4,12 +4,12 @@ int		main()
 {
 	char	*str;
 
-	malloc(524*getpagesize());
-	malloc(211*getpagesize());
-	malloc(524*getpagesize());
-	malloc(211*getpagesize());
-	malloc(524*getpagesize());
-	malloc(211*getpagesize());
+	str = malloc(getpagesize()*350);
+	free(str);
+	str = malloc(getpagesize()*350);
+	malloc(getpagesize()*350);
+	malloc(getpagesize()*350);
+	free(str);
 	show_alloc_mem();
 	return (0);
 }

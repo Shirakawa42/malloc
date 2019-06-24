@@ -5,7 +5,7 @@ static void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-static void	ft_putnbr(int n)
+void	ft_putnbr(int n)
 {
 	if (n == -2147483648)
 	{
@@ -36,7 +36,7 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
-static void	ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
 	write(1, str, ft_strlen(str));
 }
