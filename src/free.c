@@ -91,12 +91,13 @@ void	free(void *ptr)
 	char	type;
 	t_node	*stock;
 
-	ft_putstr("on passe dans le free\n");
+	//ft_putstr("on passe dans le free\n");
 	if (ptr == NULL)
 		return ;
 	node = (t_node*)ptr - 1;
 	if (search_zonebig(node) == NULL)
 		return ;
+	ft_putstr("ok\n");
 	node->free = 1;
 	type = 'L';
 	stock = g_stock.large;

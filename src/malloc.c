@@ -42,7 +42,6 @@ static void		*malloc_tiny(size_t size)
 	static int	id = 0;
 	t_node		*node;
 
-	ft_putstr("tiny\n");
 	if (g_stock.tiny == NULL)
 		g_stock.tiny = create_new_zone(&id, g_stock.tiny, size);
 	node = g_stock.tiny;
@@ -63,7 +62,6 @@ static void		*malloc_medium(size_t size)
 	static int	id = 0;
 	t_node		*node;
 
-	ft_putstr("medium");
 	if (g_stock.medium == NULL)
 		g_stock.medium = create_new_zone(&id, g_stock.medium, size);
 	node = g_stock.medium;
@@ -84,7 +82,6 @@ static void		*malloc_large(size_t size)
 	static int	id = 0;
 	t_node		*node;
 
-	ft_putstr("large");
 	if (g_stock.large == NULL)
 		g_stock.large = create_new_zone(&id, g_stock.large, size);
 	node = g_stock.large;
@@ -102,32 +99,8 @@ static void		*malloc_large(size_t size)
 
 void			*malloc(size_t size)
 {
-	void	*result;
-
-	ft_putstr("on passe dans malloc\n");
 	if (size + sizeof(t_node) <= TINY * getpagesize())
-	{
-		result = malloc_tiny(size);
-/*		t_node *test;
-
-		for (size_t i = 0; i < size; i++)
-			((char*)result)[i] = '\0';
-
-		test = g_stock.tiny;
-		ft_putstr("=============================================\n");
-		while (test)
-		{
-			ft_putstr("free = ");
-			ft_putnbr(test->free);
-			ft_putstr("\nsize = ");
-			ft_putnbr(test->size);
-			ft_putstr("\n---------------\n");
-			test = test->next;
-		}
-		ft_putstr("=============================================\n");*/
-		ft_putstr("malloc done\n");
-		return result;
-	}
+		return malloc_tiny(size);
 	else if (size + sizeof(t_node) <= MEDIUM * getpagesize())
 		return (malloc_medium(size));
 	else
