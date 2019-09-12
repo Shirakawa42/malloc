@@ -25,8 +25,12 @@ void	*realloc(void *ptr, size_t size)
 	size_t	basesize;
 
 	if (ptr == NULL)
+		return (malloc(size));
+	if (size < 1)
 		return (NULL);
 	node = (t_node*)ptr - 1;
+	if (!search_zonebig(node))
+		return (NULL);
 	basesize = node->size;
 	if (node->next && node->next->free == 1 && node->zone_id == node->next->zone_id)
 	{

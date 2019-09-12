@@ -11,7 +11,7 @@ SRC_DIR		=	src/
 INC_DIR		=	include/
 OBJ_DIR		=	objs/
 
-SRC_BASE	=	malloc.c allocate.c print_memory.c free.c realloc.c libft.c \
+SRC_BASE	=	malloc.c allocate.c print_memory.c free.c realloc.c libft.c search_zone.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))

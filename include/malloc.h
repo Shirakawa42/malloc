@@ -48,5 +48,6 @@ void	ft_putaddr(uint64_t addr);
 void	ft_putchar(char c);
 void	ft_putbigunbr(uint64_t n);
 void	show_alloc_mem();
+void	*search_zonebig(void *ptr);
 
 #endif

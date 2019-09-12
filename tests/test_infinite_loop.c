@@ -11,7 +11,7 @@ int		main()
 		a = (char**)malloc(sizeof(char*) * i);
 		for (int j = 0; j < i; j++)
 		{
-			a[j] = (char*)malloc(sizeof(char) * j);
+			a[j] = (char*)malloc(sizeof(char) * j * 10);
 			bzero(a[j], j*10);
 		}
 		for (int j = 0; j < i; j++)
