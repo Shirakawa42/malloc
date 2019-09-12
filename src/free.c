@@ -60,6 +60,30 @@ static void	look_for_fusion(size_t id, t_node *stock)
 	}
 }
 
+static void	*search_zone(void *ptr, t_node *node)
+{
+	while (node)
+	{
+		if (node == ptr)
+			return (node);
+		node = node->next;
+	}
+	return (NULL);
+}
+
+static void		*search_zonebig(void *ptr)
+{
+	void	*ret;
+
+	if ((ret = search_zone(ptr, g_stock.tiny)) != NULL)
+		return (ret);
+	else if ((ret = search_zone(ptr, g_stock.medium)) != NULL)
+		return (ret);
+	else if ((ret = search_zone(ptr, g_stock.large)) != NULL)
+		return (ret);
+	return (NULL);
+}
+
 void	free(void *ptr)
 {
 	t_node	*node;
@@ -67,12 +91,16 @@ void	free(void *ptr)
 	char	type;
 	t_node	*stock;
 
+	ft_putstr("on passe dans le free\n");
 	if (ptr == NULL)
 		return ;
 	node = (t_node*)ptr - 1;
+	if (search_zonebig(node) == NULL)
+		return ;
 	node->free = 1;
 	type = 'L';
 	stock = g_stock.large;
+	//ft_putstr("la\n");
 	if (node->size + sizeof(t_node) <= TINY * getpagesize())
 	{
 		type = 'T';
@@ -83,7 +111,10 @@ void	free(void *ptr)
 		type = 'M';
 		stock = g_stock.medium;
 	}
+	//ft_putstr("la\n");
 	destroyed = look_for_destruction(node->zone_id, type, stock);
+	//ft_putstr("la\n");
 	if (destroyed == 0)
 		look_for_fusion(node->zone_id, stock);
+	//ft_putstr("fin du free\n");
 }
