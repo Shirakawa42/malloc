@@ -12,12 +12,7 @@
 
 #include "malloc.h"
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putnbr(int n)
+void		ft_putnbr(int n)
 {
 	if (n >= 10)
 	{
@@ -28,7 +23,7 @@ void	ft_putnbr(int n)
 		ft_putchar(n + 48);
 }
 
-void	ft_putbigunbr(uint64_t n)
+void		ft_putbigunbr(uint64_t n)
 {
 	if (n >= 10)
 	{
@@ -49,12 +44,12 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_putstr(char *str)
+void		ft_putstr(char *str)
 {
 	write(1, str, ft_strlen(str));
 }
 
-void	ft_putaddr(uint64_t addr)
+void		ft_putaddr(uint64_t addr)
 {
 	if (addr > 16)
 	{

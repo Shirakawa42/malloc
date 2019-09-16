@@ -27,8 +27,8 @@ static void	destroy_zone(t_node *start, t_node *prev, t_node *next, char type)
 	else if (type == 'M')
 		munmap(start, MEDIUM * getpagesize() * 100);
 	else
-		munmap(start, ((start->size + sizeof(t_node)) - ((start->size + sizeof(t_node))
-				% getpagesize()) + getpagesize()));
+		munmap(start, ((start->size + sizeof(t_node)) - ((start->size +
+				sizeof(t_node)) % getpagesize()) + getpagesize()));
 }
 
 static int	look_for_destruction(size_t id, char type, t_node *start)
@@ -72,17 +72,14 @@ static void	look_for_fusion(size_t id, t_node *stock)
 	}
 }
 
-void	free(void *ptr)
+void		free(void *ptr)
 {
 	t_node	*node;
 	int		destroyed;
 	char	type;
 	t_node	*stock;
 
-	if (ptr == NULL)
-		return ;
-	node = (t_node*)ptr - 1;
-	if (search_zonebig(node) == NULL)
+	if (ptr == NULL || !search_zonebig((node = (t_node*)ptr - 1)))
 		return ;
 	node->free = 1;
 	type = 'L';

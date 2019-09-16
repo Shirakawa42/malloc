@@ -12,30 +12,10 @@
 
 #include "malloc.h"
 
-static void		*claim_node(t_node **node, size_t size)
-{
-	t_node	*n;
-	t_node	*tmp;
-
-	n = *node;
-	n->free = 0;
-	if (n->size > size + sizeof(t_node) && size + sizeof(t_node) <= MEDIUM * getpagesize())
-	{
-		tmp = n->next;
-		n->next = (t_node*)((char*)(n + 1) + size);
-		n->next->next = tmp;
-		n->next->size = n->size - size - sizeof(t_node);
-		n->size = size;
-		n->next->zone_id = n->zone_id;
-		n->next->free = 1;
-	}
-	return (n + 1);
-}
-
 static t_node	*create_new_zone(int *id, t_node *node, size_t size)
 {
 	if ((node = allocate(size)) == (void*)-1)
-			return NULL;
+		return (NULL);
 	node->free = 1;
 	node->next = NULL;
 	node->zone_id = *id;
@@ -44,7 +24,8 @@ static t_node	*create_new_zone(int *id, t_node *node, size_t size)
 	else if (size + sizeof(t_node) <= MEDIUM * getpagesize())
 		node->size = (MEDIUM * getpagesize() * 100) - sizeof(t_node);
 	else
-		node->size = (size - (size % getpagesize()) + getpagesize()) - sizeof(t_node);
+		node->size = (size - (size % getpagesize()) + getpagesize())
+				- sizeof(t_node);
 	(*id)++;
 	return (node);
 }
@@ -65,7 +46,7 @@ static void		*malloc_tiny(size_t size)
 		node = node->next;
 	}
 	if (node == NULL)
-		return NULL;
+		return (NULL);
 	return (claim_node(&node, size));
 }
 
@@ -85,7 +66,7 @@ static void		*malloc_medium(size_t size)
 		node = node->next;
 	}
 	if (node == NULL)
-		return NULL;
+		return (NULL);
 	return (claim_node(&node, size));
 }
 
@@ -105,17 +86,17 @@ static void		*malloc_large(size_t size)
 		node = node->next;
 	}
 	if (node == NULL)
-		return NULL;
+		return (NULL);
 	return (claim_node(&node, size));
 }
 
 void			*malloc(size_t size)
 {
 	if (size + sizeof(t_node) <= TINY * getpagesize())
-		return malloc_tiny(size);
+		return (malloc_tiny(size));
 	else if (size + sizeof(t_node) <= MEDIUM * getpagesize())
 		return (malloc_medium(size));
 	else
 		return (malloc_large(size));
-	return NULL;
+	return (NULL);
 }
