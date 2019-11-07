@@ -58,5 +58,3 @@ fclean: clean
 re:				fclean all
 
 .PHONY :		fclean clean re
-
--include $(OBJS:.o=.d)
