@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:42:24 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 17:35:43 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 18:07:32 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,15 @@ static void	look_for_fusion(size_t id, t_node *stock)
 	}
 }
 
-void		free(void *ptr)
+static void	real_free(void *ptr)
 {
 	t_node	*node;
 	int		destroyed;
 	char	type;
 	t_node	*stock;
 
-	pthread_mutex_lock(&g_mutex);
 	if (ptr == NULL || !search_zonebig((node = (t_node*)ptr - 1)))
-	{
-		pthread_mutex_unlock(&g_mutex);
 		return ;
-	}
 	node->free = 1;
 	type = 'L';
 	stock = g_stock.large;
@@ -101,5 +97,11 @@ void		free(void *ptr)
 	destroyed = look_for_destruction(node->zone_id, type, stock);
 	if (destroyed == 0)
 		look_for_fusion(node->zone_id, stock);
+}
+
+void		free(void *ptr)
+{
+	pthread_mutex_lock(&g_mutex);
+	real_free(ptr);
 	pthread_mutex_unlock(&g_mutex);
 }

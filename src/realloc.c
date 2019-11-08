@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:52:53 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 17:57:12 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 18:21:54 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,48 @@ static void	*big_if(t_node **nodeaddr, size_t size)
 	return (node + 1);
 }
 
+static void	*big_elseif(size_t size, void *ptr, size_t basesize)
+{
+	void	*ret;
+
+	if (!(ret = malloc(size)))
+	{
+		pthread_mutex_unlock(&g_mutex);
+		return (NULL);
+	}
+	ret = ft_memcpy(ret, ptr, basesize);
+	free(ptr);
+	pthread_mutex_unlock(&g_mutex);
+	return (ret);
+}
+
+static void	*realloc_part_two(void *ptr, size_t size, t_node *node)
+{
+	size_t	basesize;
+
+	basesize = node->size;
+	if (node->next && node->next->free == 1 && node->zone_id ==
+			node->next->zone_id)
+	{
+		node->size += node->next->size + sizeof(t_node);
+		node->next = node->next->next;
+	}
+	if (size < node->size && node->size - size > sizeof(t_node))
+		return (big_if(&node, size));
+	else if (size > node->size)
+		return (big_elseif(size, ptr, basesize));
+	else
+	{
+		pthread_mutex_unlock(&g_mutex);
+		return (ptr);
+	}
+	pthread_mutex_unlock(&g_mutex);
+	return (NULL);
+}
+
 void		*realloc(void *ptr, size_t size)
 {
 	t_node	*node;
-	void	*ret;
-	size_t	basesize;
 
 	pthread_mutex_lock(&g_mutex);
 	if (ptr == NULL)
@@ -64,32 +101,5 @@ void		*realloc(void *ptr, size_t size)
 		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
 	}
-	basesize = node->size;
-	if (node->next && node->next->free == 1 && node->zone_id ==
-			node->next->zone_id)
-	{
-		node->size += node->next->size + sizeof(t_node);
-		node->next = node->next->next;
-	}
-	if (size < node->size && node->size - size > sizeof(t_node))
-		return (big_if(&node, size));
-	else if (size > node->size)
-	{
-		if (!(ret = malloc(size)))
-		{	
-			pthread_mutex_unlock(&g_mutex);
-			return (NULL);
-		}
-		ret = ft_memcpy(ret, ptr, basesize);
-		free(ptr);
-		pthread_mutex_unlock(&g_mutex);
-		return (ret);
-	}
-	else
-	{
-		pthread_mutex_unlock(&g_mutex);
-		return (ptr);
-	}
-	pthread_mutex_unlock(&g_mutex);
-	return (NULL);
+	return (realloc_part_two(ptr, size, node));
 }

@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:42:40 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 17:38:26 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 18:02:59 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,12 @@ static void		*malloc_large(size_t size)
 void			*malloc(size_t size)
 {
 	void	*ret;
-	size_t tmp;
 
-	tmp = size;
 	ret = NULL;
 	if (size >= ULONG_MAX - 16 - sizeof(t_node))
 		return (NULL);
-	size += (size % 16 != 0) ? (16 - (size % 16)) : 0;
+	if (size % 16 != 0)
+		size += (16 - (size % 16));
 	pthread_mutex_lock(&g_mutex);
 	if (size + sizeof(t_node) <= TINY * getpagesize())
 		ret = malloc_tiny(size);
@@ -108,5 +107,5 @@ void			*malloc(size_t size)
 	else
 		ret = malloc_large(size);
 	pthread_mutex_unlock(&g_mutex);
-	return ret;;
+	return (ret);
 }
