@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/16 14:42:17 by lvasseur          #+#    #+#              #
-#    Updated: 2019/09/16 14:42:20 by lvasseur         ###   ########.fr        #
+#    Updated: 2019/11/08 15:33:54 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC_DIR		=	src/
 INC_DIR		=	include/
 OBJ_DIR		=	objs/
 
-SRC_BASE	=	malloc.c allocate.c print_memory.c free.c realloc.c libft.c search_zone.c \
+SRC_BASE	=	malloc.c allocate.c print_memory.c free.c realloc.c libft.c search_zone.c calloc.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))

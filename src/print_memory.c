@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:42:46 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/09/16 13:42:48 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 15:12:14 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		show_alloc_mem(void)
 {
 	uint64_t	total;
 
+	pthread_mutex_lock(&g_mutex);
 	total = 0;
 	if (g_stock.tiny)
 	{
@@ -56,4 +57,5 @@ void		show_alloc_mem(void)
 	ft_putstr("Total : ");
 	ft_putbigunbr(total);
 	ft_putstr(" octets\n");
+	pthread_mutex_unlock(&g_mutex);
 }

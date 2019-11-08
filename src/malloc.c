@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:42:40 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/09/16 13:42:42 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 17:38:26 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void		*malloc_tiny(size_t size)
 	if (g_stock.tiny == NULL)
 		g_stock.tiny = create_new_zone(&id, g_stock.tiny, size);
 	node = g_stock.tiny;
+	if (node == NULL)
+		return (NULL);
 	while (node->next && (node->free == 0 || node->size < size))
 		node = node->next;
 	if (!node->next && (node->free == 0 || node->size < size))
@@ -45,8 +47,6 @@ static void		*malloc_tiny(size_t size)
 		node->next = create_new_zone(&id, node->next, size);
 		node = node->next;
 	}
-	if (node == NULL)
-		return (NULL);
 	return (claim_node(&node, size));
 }
 
@@ -58,6 +58,8 @@ static void		*malloc_medium(size_t size)
 	if (g_stock.medium == NULL)
 		g_stock.medium = create_new_zone(&id, g_stock.medium, size);
 	node = g_stock.medium;
+	if (node == NULL)
+		return (NULL);
 	while (node->next && (node->free == 0 || node->size < size))
 		node = node->next;
 	if (!node->next && (node->free == 0 || node->size < size))
@@ -65,8 +67,6 @@ static void		*malloc_medium(size_t size)
 		node->next = create_new_zone(&id, node->next, size);
 		node = node->next;
 	}
-	if (node == NULL)
-		return (NULL);
 	return (claim_node(&node, size));
 }
 
@@ -78,6 +78,8 @@ static void		*malloc_large(size_t size)
 	if (g_stock.large == NULL)
 		g_stock.large = create_new_zone(&id, g_stock.large, size);
 	node = g_stock.large;
+	if (node == NULL)
+		return (NULL);
 	while (node->next)
 		node = node->next;
 	if (node->free == 0)
@@ -85,18 +87,26 @@ static void		*malloc_large(size_t size)
 		node->next = create_new_zone(&id, node->next, size);
 		node = node->next;
 	}
-	if (node == NULL)
-		return (NULL);
 	return (claim_node(&node, size));
 }
 
 void			*malloc(size_t size)
 {
+	void	*ret;
+	size_t tmp;
+
+	tmp = size;
+	ret = NULL;
+	if (size >= ULONG_MAX - 16 - sizeof(t_node))
+		return (NULL);
+	size += (size % 16 != 0) ? (16 - (size % 16)) : 0;
+	pthread_mutex_lock(&g_mutex);
 	if (size + sizeof(t_node) <= TINY * getpagesize())
-		return (malloc_tiny(size));
+		ret = malloc_tiny(size);
 	else if (size + sizeof(t_node) <= MEDIUM * getpagesize())
-		return (malloc_medium(size));
+		ret = malloc_medium(size);
 	else
-		return (malloc_large(size));
-	return (NULL);
+		ret = malloc_large(size);
+	pthread_mutex_unlock(&g_mutex);
+	return ret;;
 }

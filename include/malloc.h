@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 13:31:21 by lvasseur          #+#    #+#             */
-/*   Updated: 2018/05/18 15:34:01 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/08 16:43:05 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <sys/mman.h>
 # include <unistd.h>
 # include <stdint.h>
+# include <pthread.h>
+# include <limits.h>
 
 # define TINY (size_t)16
 # define MEDIUM (size_t)128
@@ -36,7 +38,8 @@ typedef struct		s_stock
 	t_node			*large;
 }					t_stock;
 
-t_stock				g_stock;
+t_stock					g_stock;
+static pthread_mutex_t	g_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void				*allocate(size_t size);
 void				*malloc(size_t size);
@@ -50,5 +53,6 @@ void				ft_putbigunbr(uint64_t n);
 void				show_alloc_mem();
 void				*search_zonebig(void *ptr);
 void				*claim_node(t_node **node, size_t size);
+void				*calloc(size_t nmemb, size_t size);
 
 #endif
