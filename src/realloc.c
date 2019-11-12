@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:52:53 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 18:21:54 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/12 15:02:10 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,10 @@ void		*realloc(void *ptr, size_t size)
 {
 	t_node	*node;
 
+	if (size >= ULONG_MAX - 16 - sizeof(t_node))
+		return (NULL);
+	if (size % 16 != 0)
+		size += (16 - (size % 16));
 	pthread_mutex_lock(&g_mutex);
 	if (ptr == NULL)
 	{
