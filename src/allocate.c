@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:39:09 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 15:33:00 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:02:26 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*claim_node(t_node **node, size_t size)
 
 	n = *node;
 	n->free = 0;
+	n->size = size;
 	if (n->size > size + sizeof(t_node) && size +
 			sizeof(t_node) <= MEDIUM * getpagesize())
 	{
@@ -31,7 +32,6 @@ void	*claim_node(t_node **node, size_t size)
 		n->next = (t_node*)((char*)(n + 1) + size);
 		n->next->next = tmp;
 		n->next->size = n->size - size - sizeof(t_node);
-		n->size = size;
 		n->next->zone_id = n->zone_id;
 		n->next->free = 1;
 	}
