@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 13:31:21 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/08 16:43:05 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:59:50 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void				show_alloc_mem();
 void				*search_zonebig(void *ptr);
 void				*claim_node(t_node **node, size_t size);
 void				*calloc(size_t nmemb, size_t size);
+void				*reallocf(void *ptr, size_t size);
 
 #endif
