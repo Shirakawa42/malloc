@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 13:52:53 by lvasseur          #+#    #+#             */
-/*   Updated: 2019/11/12 15:02:10 by lvasseur         ###   ########.fr       */
+/*   Updated: 2019/11/20 16:49:13 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,16 @@ void		*realloc(void *ptr, size_t size)
 		pthread_mutex_unlock(&g_mutex);
 		return (malloc(size));
 	}
-	if (size == 0 || !search_zonebig((node = (t_node*)ptr - 1)))
+	if (size == 0)
 	{
 		free(ptr);
 		pthread_mutex_unlock(&g_mutex);
-		return (NULL);
+		return (malloc(16));
+	}
+	if (!search_zonebig((node = (t_node*)ptr - 1)))
+	{
+		pthread_mutex_unlock(&g_mutex);
+		return (0);
 	}
 	return (realloc_part_two(ptr, size, node));
 }
